@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProductController;
+use App\Jobs\NewJobWorker;
 use App\Jobs\OrderPlacedjob;
 
 /*
@@ -21,7 +22,14 @@ use App\Jobs\OrderPlacedjob;
 
 Route::get('/', function () {
     //(new OrderPlacedjob())->handle();
-         dispatch(new OrderPlacedjob())->delay(5);
+        foreach(range(1,100) as $i)
+        {
+            dispatch(new OrderPlacedjob())->delay(5);
+        }
+
+        dispatch(new NewJobWorker())->onQueue('payments');
+
+
     return view('welcome');
 });
 
