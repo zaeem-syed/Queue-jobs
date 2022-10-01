@@ -22,13 +22,14 @@ use App\Jobs\OrderPlacedjob;
 
 Route::get('/', function () {
     //(new OrderPlacedjob())->handle();
-        foreach(range(1,100) as $i)
-        {
-            dispatch(new OrderPlacedjob())->delay(5);
-        }
+        // foreach(range(1,100) as $i)
+        // {
+        //     dispatch(new OrderPlacedjob())->delay(5);
+        // }
 
-        dispatch(new NewJobWorker())->onQueue('payments');
+        //dispatch(new NewJobWorker())->onQueue('payments');
 
+        dispatch(new OrderPlacedjob())->delay(5);
 
     return view('welcome');
 });
