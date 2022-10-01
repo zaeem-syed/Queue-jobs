@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProductController;
+use App\Jobs\DummyTestJob;
 use App\Jobs\NewJobWorker;
 use App\Jobs\OrderPlacedjob;
 
@@ -29,9 +30,28 @@ Route::get('/', function () {
 
         //dispatch(new NewJobWorker())->onQueue('payments');
 
-        dispatch(new OrderPlacedjob())->delay(5);
+        //dispatch(new OrderPlacedjob())->delay(5);
+
+    //     $chain=[
+    //         new NewJobWorker(),
+    //         new DummyTestJob(),
+    //         new OrderPlacedjob(),
+
+    //     ];
+
+    //    \Illuminate\Support\Facades\Bus::chain($chain)->dispatch();
+
+    $batch=[
+        new NewJobWorker(),
+        new DummyTestJob(),
+        new OrderPlacedjob(),
+    ];
+    \Illuminate\Support\Facades\Bus::batch($batch)->dispatch();
 
     return view('welcome');
+    //php artisan queue:batches-table first make this migration
+    // use batchable trait in inside the job
+
 });
 
 Auth::routes();

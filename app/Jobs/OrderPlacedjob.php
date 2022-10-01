@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use Exception;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 
 class OrderPlacedjob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable,Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
 
 
@@ -22,8 +23,8 @@ class OrderPlacedjob implements ShouldQueue
 
     //public $backoff=2;// to delay worker to retry it
 
-    public $tries=10;
-    public $maxExceptions=2;
+    //public $tries=10;
+    //public $maxExceptions=2;
 
     //public $backoff=[2,5,7]; first it will back off for 2 seconds
     // then it will retry it after 5 seconds and then 7 seconds
@@ -49,9 +50,9 @@ class OrderPlacedjob implements ShouldQueue
     public function handle()
     {
         //
-        throw new \Exception("failed");
-        //sleep(3);
-        return $this->release();
+        //throw new \Exception("failed");
+        sleep(3);
+        //return $this->release();
         //info("hello!");
     }
 
@@ -60,8 +61,8 @@ class OrderPlacedjob implements ShouldQueue
     //     return now()->addMinute();
     // }
 
-    public function failed($e)
-    {
-        info("failed");
-    }
+   // public function failed($e)
+    // {
+    //     info("failed");
+    // }
 }
